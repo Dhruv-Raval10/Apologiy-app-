@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#ff758c">
+  <title>For You, With All My Heart ❤️</title>
+  
+  <!-- Google Fonts: Dancing Script (Handwritten/Romantic) & Poppins (Clean rounded) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- App Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient Floating Hearts Background Canvas -->
+  <canvas id="hearts-canvas" aria-hidden="true"></canvas>
+
+  <!-- Confetti Celebration Canvas -->
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <!-- Floating Audio Music Controller -->
+  <div class="music-controller-wrap">
+    <button id="music-toggle-btn" class="music-toggle-btn" aria-label="Toggle background music" title="Toggle background music">
+      <span class="music-icon" id="music-icon">🎵</span>
+      <span class="music-text" id="music-text">Music: Off</span>
+      <span class="music-waves" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+
+  <!-- Audio Element (Will play Web Audio API soft music-box melody by default or user mp3) -->
+  <audio id="bg-audio" loop preload="none">
+    <source src="audio/romantic.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Main App Viewport Container -->
+  <main id="app-container" class="app-container">
+
+    <!-- ==============================================
+         SCREEN 1: MEASURE LOVE
+         ============================================== -->
+    <section id="screen-1" class="screen screen-measure active" data-screen="1">
+      <div class="screen-content heart-center-layout">
+        <!-- Beating Glowing Heart Container -->
+        <div class="giant-heart-wrapper">
+          <div class="heart-halo"></div>
+          <div class="giant-heart" id="giant-heart">
+            <svg class="heart-svg" viewBox="0 0 100 90" fill="currentColor">
+              <path d="M50 85 C50 85 8 55 8 28 C8 12 21 0 36 0 C44 0 49 5 50 10 C51 5 56 0 64 0 C79 0 92 12 92 28 C92 55 50 85 50 85 Z" />
+            </svg>
+            <div class="heart-sparkle sparkle-1">✨</div>
+            <div class="heart-sparkle sparkle-2">💖</div>
+            <div class="heart-sparkle sparkle-3">✨</div>
+          </div>
+        </div>
+
+        <!-- Initial State: Center Button -->
+        <div class="measure-action-container" id="measure-init-box">
+          <button id="btn-measure-love" class="btn-pill btn-large pulse-glow">
+            <span class="btn-icon">💖</span>
+            <span class="btn-text">Measure Love</span>
+          </button>
+        </div>
+
+        <!-- In-Progress & Result State (Revealed when clicked) -->
+        <div class="measure-progress-container hidden" id="measure-progress-box" aria-live="polite">
+          <div class="measure-status-title" id="measure-status-title">
+            Measuring love...
+          </div>
+          <div class="measure-substatus" id="measure-substatus">
+            Calibrating heartbeat frequency...
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-track" id="progress-track">
+            <div class="progress-fill" id="progress-fill">
+              <div class="progress-glow"></div>
+            </div>
+          </div>
+
+          <!-- Percentage Indicator -->
+          <div class="progress-percentage" id="progress-percentage">0%</div>
+
+          <!-- Error Feedback Box (Shows at 6-8s) -->
+          <div class="measure-error-box hidden" id="measure-error-box">
+            <div class="error-badge">⚠️ OVERFLOW DETECTED</div>
+            <p class="error-text" id="measure-error-text">
+              Error! The love is a lot, we cannot measure. ❤️
+            </p>
+          </div>
+
+          <!-- Next Screen Button (Fades in after error) -->
+          <div class="measure-next-box hidden" id="measure-next-box">
+            <button id="btn-to-screen-2" class="btn-pill btn-medium pulse-glow">
+              <span class="btn-text">Next</span>
+              <span class="btn-arrow">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         SCREEN 2: THE LOVE LETTER
+         ============================================== -->
+    <section id="screen-2" class="screen screen-letter" data-screen="2">
+      <div class="screen-content letter-center-layout">
+        <div class="letter-card" id="letter-card">
+          <!-- Decorative Wax Heart Seal -->
+          <div class="wax-seal" title="Sealed with love">
+            <span class="seal-heart">💌</span>
+          </div>
+
+          <!-- Paper Texture Subtle Highlights -->
+          <div class="paper-texture-overlay"></div>
+
+          <!-- Letter Header / Title -->
+          <header class="letter-header">
+            <h1 class="letter-title" id="letter-title">
+              Thanks for being so kind Shruv ❤️
+            </h1>
+            <div class="letter-divider">
+              <span class="divider-line"></span>
+              <span class="divider-heart">❦</span>
+              <span class="divider-line"></span>
+            </div>
+          </header>
+
+          <!-- Letter Body: Typewriter Container -->
+          <div class="letter-body">
+            <p class="typewriter-text" id="typewriter-text">
+              <!-- Text will be typed character by character via script.js -->
+            </p>
+            <span class="typewriter-cursor" id="typewriter-cursor">|</span>
+          </div>
+
+          <!-- Fast-Forward / Skip Hint -->
+          <div class="letter-hint" id="letter-hint">
+            Tap letter to read faster ✨
+          </div>
+
+          <!-- Continue Button (Fades in after typing finishes) -->
+          <footer class="letter-footer hidden" id="letter-footer">
+            <button id="btn-to-screen-3" class="btn-pill btn-medium pulse-glow">
+              <span class="btn-text">Continue</span>
+              <span class="btn-arrow">→</span>
+            </button>
+          </footer>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         SCREEN 3: GIFT BOX
+         ============================================== -->
+    <section id="screen-3" class="screen screen-gift" data-screen="3">
+      <div class="screen-content gift-center-layout">
+        <div class="gift-header">
+          <h1 class="gift-title" id="gift-title">
+            Please accept my apology bribes :)
+          </h1>
+          <p class="gift-subtitle" id="gift-subtitle">
+            I prepared something special to make you smile ✨
+          </p>
+        </div>
+
+        <!-- Interactive Bouncing Gift Box -->
+        <div class="gift-box-stage" id="gift-box-stage" role="button" tabindex="0" aria-label="Tap to open the gift box">
+          <div class="gift-box" id="gift-box">
+            <!-- Box Lid with Ribbon & Bow -->
+            <div class="gift-lid" id="gift-lid">
+              <div class="lid-top">
+                <div class="ribbon-bow">
+                  <div class="bow-loop bow-left"></div>
+                  <div class="bow-loop bow-right"></div>
+                  <div class="bow-center">❤️</div>
+                  <div class="bow-ribbon ribbon-tail-left"></div>
+                  <div class="bow-ribbon ribbon-tail-right"></div>
+                </div>
+                <div class="ribbon-vertical-lid"></div>
+              </div>
+              <div class="lid-rim"></div>
+            </div>
+
+            <!-- Box Base Body -->
+            <div class="gift-body">
+              <div class="ribbon-vertical-body"></div>
+              <div class="ribbon-horizontal-body"></div>
+              <div class="gift-glow-inner" id="gift-glow-inner"></div>
+            </div>
+
+            <!-- Shadow underneath box -->
+            <div class="gift-shadow"></div>
+          </div>
+
+          <!-- Interactive Tap Prompt -->
+          <div class="gift-tap-prompt" id="gift-tap-prompt">
+            <span class="tap-finger">👆</span>
+            <span class="tap-label">Tap the box to open ✨</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         SCREEN 4: THE THREE BRIBES
+         ============================================== -->
+    <section id="screen-4" class="screen screen-bribes" data-screen="4">
+      <div class="screen-content bribes-center-layout">
+        <div class="bribes-header">
+          <span class="bribes-tag">PEACE OFFERINGS 🕊️</span>
+          <h1 class="bribes-title" id="bribes-title">
+            Your Apology Bribes
+          </h1>
+          <p class="bribes-subtitle">
+            Hand-crafted with infinite apologies & extra love
+          </p>
+        </div>
+
+        <!-- Staggered Three Cards Container -->
+        <div class="bribes-cards-container" id="bribes-cards-container">
+
+          <!-- Card 1: Fresh Bloom -->
+          <div class="bribe-card card-bloom" id="bribe-card-1" style="--delay-order: 0;">
+            <div class="card-glow"></div>
+            <div class="card-icon-wrap bloom-icon-wrap">
+              <span class="card-emoji">💐</span>
+              <span class="floating-petal p1">🌸</span>
+              <span class="floating-petal p2">✨</span>
+            </div>
+            <div class="card-content">
+              <h2 class="card-title">Fresh Bloom</h2>
+              <p class="card-desc">
+                A radiant fresh bouquet to brighten your day and bring that lovely smile back.
+              </p>
+              <div class="card-status-badge">
+                <span class="badge-icon">🌿</span> Always Fresh
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Cuddle Pass (Ticket / Pass Style) -->
+          <div class="bribe-card card-ticket" id="bribe-card-2" style="--delay-order: 1;">
+            <div class="ticket-cutout cutout-left"></div>
+            <div class="ticket-cutout cutout-right"></div>
+            <div class="card-glow"></div>
+            <div class="card-icon-wrap ticket-icon-wrap">
+              <span class="card-emoji">🎟️</span>
+              <span class="ticket-stamp">OFFICIAL ❤️</span>
+            </div>
+            <div class="card-content">
+              <div class="ticket-top-tag">VIP PASS • NO EXPIRATION</div>
+              <h2 class="card-title">Cuddle Pass</h2>
+              <p class="card-desc ticket-special-text">
+                Valid for unlimited cuddles
+              </p>
+              <div class="ticket-stub-info">
+                <span>REDEEM: Anytime</span>
+                <span>•</span>
+                <span>PRIORITY: Highest</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Sweet Treat -->
+          <div class="bribe-card card-sweet" id="bribe-card-3" style="--delay-order: 2;">
+            <div class="card-glow"></div>
+            <div class="card-icon-wrap sweet-icon-wrap">
+              <span class="card-emoji">🍫</span>
+              <span class="sweet-sparkle">✨</span>
+            </div>
+            <div class="card-content">
+              <h2 class="card-title">Sweet Treat</h2>
+              <p class="card-desc">
+                Only valid for your chocolate + my full attention
+              </p>
+              <div class="card-status-badge badge-sweet">
+                <span class="badge-icon">🍓</span> 100% Sweetness
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Accept All Three Bribes Button -->
+        <div class="bribes-action-footer">
+          <button id="btn-accept-bribes" class="btn-pill btn-large pulse-glow">
+            <span class="btn-icon">💖</span>
+            <span class="btn-text">Accept All Three Bribes</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         SCREEN 5: NEW BEGINNINGS
+         ============================================== -->
+    <section id="screen-5" class="screen screen-beginnings" data-screen="5">
+      <div class="screen-content beginnings-center-layout">
+        <!-- Replay Floating Button in Top/Right Corner -->
+        <button id="btn-replay" class="replay-floating-btn" title="Start over from beginning" aria-label="Replay experience">
+          <span class="replay-icon">↺</span>
+          <span class="replay-label">Replay ❤️</span>
+        </button>
+
+        <div class="beginnings-card" id="beginnings-card">
+          <!-- Title -->
+          <header class="beginnings-header">
+            <h1 class="beginnings-title" id="beginnings-title">
+              New Beginnings Ahead 💞
+            </h1>
+            <div class="beginnings-sparkles">✨ 🕊️ ✨</div>
+          </header>
+
+          <!-- Romantic Image / Fallback Container -->
+          <div class="photo-frame-wrapper">
+            <div class="photo-frame">
+              <!-- Actual image with robust fallback chain -->
+              <img id="romantic-photo" 
+                   src="images/us.jpg" 
+                   alt="Our beautiful moments together" 
+                   loading="eager"
+                   onerror="if(this.src.indexOf('us.svg')===-1){this.src='images/us.svg';}else{this.classList.add('img-error');}">
+              
+              <!-- Elegant Romantic SVG Fallback (Visible if images/us.jpg is missing) -->
+              <div class="photo-fallback" id="photo-fallback">
+                <div class="fallback-art">
+                  <svg viewBox="0 0 200 180" class="fallback-svg">
+                    <defs>
+                      <linearGradient id="heartGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ff9a9e" />
+                        <stop offset="100%" stop-color="#fecfef" />
+                      </linearGradient>
+                      <linearGradient id="heartGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ff758c" />
+                        <stop offset="100%" stop-color="#ff7eb3" />
+                      </linearGradient>
+                    </defs>
+                    <!-- Entwined Hearts Silhouette -->
+                    <circle cx="100" cy="90" r="75" fill="rgba(255, 235, 240, 0.7)" />
+                    <!-- Left Heart -->
+                    <path d="M75 110 C75 110 40 85 40 60 C40 45 52 35 65 35 C72 35 77 40 80 45 C83 40 88 35 95 35 C108 35 120 45 120 60 C120 85 85 110 85 110 Z" 
+                          fill="url(#heartGrad1)" opacity="0.9" />
+                    <!-- Right Heart Entwined -->
+                    <path d="M115 125 C115 125 75 95 75 68 C75 51 89 40 104 40 C112 40 118 45 121 51 C124 45 130 40 138 40 C153 40 167 51 167 68 C167 95 127 125 127 125 Z" 
+                          fill="url(#heartGrad2)" />
+                    <!-- Sparkles -->
+                    <text x="35" y="40" font-size="16" fill="#f6bd60">✨</text>
+                    <text x="155" y="55" font-size="16" fill="#f6bd60">✨</text>
+                    <text x="95" y="155" font-size="14" fill="#ff758c">💖</text>
+                  </svg>
+                </div>
+                <div class="fallback-note">
+                  <span class="fallback-icon">📷</span>
+                  <span class="fallback-title">You & Me Forever</span>
+                  <span class="fallback-sub">Replace images/us.jpg with your favorite photo ❤️</span>
+                </div>
+              </div>
+
+              <!-- Polaroid Heart Badge -->
+              <div class="photo-corner-badge">❤️</div>
+            </div>
+          </div>
+
+          <!-- Romantic Quote Section -->
+          <div class="quote-section">
+            <div class="quote-mark open">“</div>
+            <p class="romantic-quote" id="romantic-quote">
+              Every day with you is my favourite chapter, and I promise to write the next ones with more patience and more love.
+            </p>
+            <div class="quote-mark close">”</div>
+          </div>
+
+          <!-- Closing Signoff -->
+          <div class="signoff-section">
+            <p class="romantic-signoff" id="romantic-signoff">
+              I love you, always. ❤️
+            </p>
+          </div>
+
+          <!-- Mobile friendly restart button -->
+          <div class="beginnings-footer-restart">
+            <button id="btn-replay-bottom" class="btn-pill btn-outline">
+              <span class="btn-icon">↺</span>
+              <span class="btn-text">Replay from Beginning</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- App Logic -->
+  <script src="script.js"></script>
+</body>
+</html>
